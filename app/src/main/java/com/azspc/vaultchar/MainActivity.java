@@ -28,9 +28,9 @@ import java.util.HashSet;
 import static com.azspc.vaultchar.Property.multiProperties;
 
 public class MainActivity extends AppCompatActivity {
-    public static String[] targets;
-    public static String[] characters;
-    public static String[] properties;
+    String[] targets;
+    String[] characters;
+    String[] properties;
     RecyclerView rv;
     public static final String separator = "=", splitter = ">";
 
@@ -75,11 +75,11 @@ public class MainActivity extends AppCompatActivity {
 
         stringBuilder.append((char) (Math.random() * targets.length + 65));
         stringBuilder.append((char) (Math.random() * characters.length + 65));
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 6; i++)
             stringBuilder.append((char) (Math.random() * properties.length + 65));
-        }
+
         ((EditText) findViewById(R.id.char_code)).setText(stringBuilder.toString());
-        convert(v);
+        convert(null);
     }
 
     public void convert(View v) {
@@ -105,73 +105,6 @@ public class MainActivity extends AppCompatActivity {
                 + getData(properties, code[6]) + separator
                 + getData(properties, code[7])).split(separator)));
     }
-/*
-    @SuppressLint("SetTextI18n")
-    void setTexts(int[] c) {
-        HashSet<String> data = new HashSet<>();
-
-        for (String[] s : new String[][]{getStrArray(MainActivity.properties, c[2]), getStrArray(MainActivity.properties, c[3]), getStrArray(MainActivity.properties, c[4])})
-            if (s[0].equals("-")) minus.add(s[1]);
-            else if (s[0].equals("+")) plus.add(s[1]);
-            else data.add(s[1]);
-
-        for (String[] s : new String[][]{getStrArray(hidden, c[5]), getStrArray(hidden, c[6]), getStrArray(hidden, c[7])})
-            if (s[0].equals("-"))
-                minus.add(s[1].replaceAll(" > ",
-                        " (Скрытое) > ") + "\n  ! Храни это в секрете");
-            else if (s[0].equals("+"))
-                plus.add(s[1].replaceAll(" > ",
-                        " (Скрытое) > ") + "\n  ! Храни это в секрете");
-            else data.add(s[1].replaceAll(" > ",
-                        " (Скрытое) > ") + "\n  ! Храни это в секрете");
-
-        ((TextView) findViewById(R.id.stat_info)).setText("Данные:"
-                + "\n  Имя: " + character[3].split(" > ")[0]
-                + "\n  Профессия: " + character[0].split(" > ")[0]
-                + "\n  Возраст: " + character[1].split(" > ")[0]
-                + "\n  Пол: " + character[2].split(" > ")[0]
-                + "\n  Стиль игры: " + target.split(" > ")[0]);
-        tab[0] = ""
-                + "\nДобро пожаловать в команду, " + character[0].replaceAll(" > ", "\n   - ")
-                + " " + character[3].replaceAll(" > ", "\n   - ")
-                + "\nВозраст: " + character[1].replaceAll(" > ", "\n   - ")
-                + "\n" + character[2].replaceAll(" > ", "\n   - ")
-                + "\n" + target.replaceAll(" > ", "\n   - ")
-                + "\n\n" + character[5];
-        tab[1] = "";
-        tab[2] = "";
-        tab[3] = "";
-        StringBuilder min = new StringBuilder();
-        StringBuilder plu = new StringBuilder();
-        StringBuilder exc = new StringBuilder();
-        for (String s : minus) {
-            tab[2] += ("\n\n" + s).replaceAll(" > ", "\n  - ");
-            min.append("\n- ").append(s.split(" > ")[0]);
-        }
-        for (String s : plus) {
-            tab[3] += ("\n\n" + s).replaceAll(" > ", "\n  - ");
-            plu.append("\n+ ").append(s.split(" > ")[0]);
-        }
-        for (String s : data) {
-            tab[1] += ("\n\n" + s).replaceAll(" > ", "\n  - ");
-            exc.append("\n* ").append(s.split(" > ")[0]);
-        }
-        try {
-            ((TextView) findViewById(R.id.stat_debuf)).setText(min.toString().substring(1));
-        } catch (Exception ignored) {
-            ((TextView) findViewById(R.id.stat_debuf)).setText("");
-        }
-        try {
-            ((TextView) findViewById(R.id.stat_buf)).setText(plu.toString().substring(1));
-        } catch (Exception ignored) {
-            ((TextView) findViewById(R.id.stat_buf)).setText("");
-        }
-        try {
-            ((TextView) findViewById(R.id.stat_exclusive)).setText(exc.toString().substring(1));
-        } catch (Exception ignored) {
-            ((TextView) findViewById(R.id.stat_exclusive)).setText("");
-        }
-    }*/
 
     String getData(String[] from, int id) {
         return from[id % from.length];
@@ -194,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
             ArrayList<String> ret = new ArrayList<>();
             String line;
             BufferedReader bread = new BufferedReader(new InputStreamReader(openFileInput(dName)));
-            while ((line = bread.readLine()) != null) if (line.length() >= 3) ret.add(line);
+            while ((line = bread.readLine()) != null) if (line.length() > 10) ret.add(line);
             return ret.toArray(new String[0]);
         } catch (Exception e) {
             e.printStackTrace();

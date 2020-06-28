@@ -46,7 +46,7 @@ class ProretyAdapter extends RecyclerView.Adapter<ProretyAdapter.ViewHolder> {
 
         ViewHolder(View view) {
             super(view);
-            title = view.findViewById(R.id.post_title);
+            title = view.findViewById(R.id.prop_title);
         }
     }
 }

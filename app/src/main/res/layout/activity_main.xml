@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:background="@color/gb0"
     tools:context=".MainActivity">
 
     <EditText
@@ -12,10 +12,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:autofillHints=""
-        android:ems="10"
+        android:background="@color/gb1"
         android:hint="@string/hint_data_str"
         android:inputType="text"
         android:maxLength="8"
+        android:padding="8dp"
         android:textAlignment="center"
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,6 +27,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@color/gb1"
         android:gravity="center_horizontal|top"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -33,15 +35,55 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_parse"
+            android:id="@+id/fab_parse3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:onClick="generateRandom"
+            app:backgroundTint="@color/minus"
+            app:elevation="4dp"
+            app:fabSize="normal"
+            app:maxImageSize="32dp"
+            app:srcCompat="@drawable/refres" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:onClick="generateRandom"
+            app:backgroundTint="@color/colorAccent"
+            app:elevation="4dp"
+            app:fabSize="normal"
+            app:maxImageSize="32dp"
+            app:srcCompat="@drawable/save" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_get"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:onClick="generateRandom"
-            android:tint="#FFFFFF"
             app:backgroundTint="@color/colorAccent"
+            app:elevation="4dp"
             app:fabSize="normal"
-            app:srcCompat="@android:drawable/stat_notify_sync" />
+            app:maxImageSize="32dp"
+            app:srcCompat="@drawable/select" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:onClick="generateRandom"
+            app:backgroundTint="@color/normal"
+            app:elevation="4dp"
+            app:fabSize="normal"
+            app:maxImageSize="32dp"
+            app:srcCompat="@drawable/apply" />
 
     </LinearLayout>
 
@@ -49,6 +91,7 @@
         android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_margin="8dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
