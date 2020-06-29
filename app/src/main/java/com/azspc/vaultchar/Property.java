@@ -79,6 +79,7 @@ class Property {
             case 8:
                 return r.getColor(R.color.minus);
             case 9:
+            case 10:
                 return r.getColor(R.color.target);
         }
     }
@@ -105,8 +106,10 @@ class Property {
                 return 7;
             case "?-":
                 return 8;
-            case "$":
+            case "@":
                 return 9;
+            case "$":
+                return 10;
         }
     }
 }

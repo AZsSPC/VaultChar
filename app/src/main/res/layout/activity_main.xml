@@ -7,100 +7,108 @@
     android:background="@color/gb0"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/char_code"
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:autofillHints=""
-        android:background="@color/gb1"
-        android:hint="@string/hint_data_str"
-        android:inputType="text"
-        android:maxLength="8"
-        android:padding="8dp"
-        android:textAlignment="center"
-        android:textAllCaps="false"
+        android:background="@color/colorPrimary"
+        android:fontFamily="cursive"
+        android:gravity="start"
+        android:padding="16dp"
+        android:text="@string/app_name"
+        android:textAlignment="gravity"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="0dp"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/turn2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/gb1"
-        android:gravity="center_horizontal|top"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:onClick="turnUpDown"
+        android:padding="8dp"
+        app:backgroundTint="@color/colorAccent"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_parse3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:layout_weight="1"
-            android:onClick="generateRandom"
-            app:backgroundTint="@color/minus"
-            app:elevation="4dp"
-            app:fabSize="normal"
-            app:maxImageSize="32dp"
-            app:srcCompat="@drawable/refres" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:layout_weight="1"
-            android:onClick="generateRandom"
-            app:backgroundTint="@color/colorAccent"
-            app:elevation="4dp"
-            app:fabSize="normal"
-            app:maxImageSize="32dp"
-            app:srcCompat="@drawable/save" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_get"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:onClick="generateRandom"
-            app:backgroundTint="@color/colorAccent"
-            app:elevation="4dp"
-            app:fabSize="normal"
-            app:maxImageSize="32dp"
-            app:srcCompat="@drawable/select" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:layout_weight="1"
-            android:onClick="generateRandom"
-            app:backgroundTint="@color/normal"
-            app:elevation="4dp"
-            app:fabSize="normal"
-            app:maxImageSize="32dp"
-            app:srcCompat="@drawable/apply" />
-
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="@+id/textView"
+        app:maxImageSize="32dp"
+        app:srcCompat="@drawable/more" />
 
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/char_code">
+        app:layout_constraintTop_toBottomOf="@+id/textView">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/prop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </ScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fablay"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorLay"
+        android:padding="16dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <EditText
+            android:id="@+id/char_code"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:autofillHints=""
+            android:background="@color/gb0"
+            android:hint="@string/hint_data_str"
+            android:inputType="number"
+            android:padding="4dp"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            app:layout_constraintBottom_toBottomOf="@+id/fab_refresh"
+            app:layout_constraintEnd_toEndOf="@+id/fab_apply"
+            app:layout_constraintStart_toStartOf="@+id/fab_refresh"
+            app:layout_constraintTop_toTopOf="@+id/fab_refresh" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="generateRandom"
+            app:backgroundTint="@color/minus"
+            app:fabSize="normal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:maxImageSize="32dp"
+            app:srcCompat="@drawable/refres" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_apply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="convert"
+            app:backgroundTint="@color/normal"
+            app:fabSize="normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:maxImageSize="32dp"
+            app:srcCompat="@drawable/select" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

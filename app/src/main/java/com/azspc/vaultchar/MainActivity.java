@@ -1,17 +1,17 @@
 package com.azspc.vaultchar;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -22,7 +22,6 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 
 import static com.azspc.vaultchar.Property.multiProperties;
@@ -33,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     String[] properties;
     RecyclerView rv;
     public static final String separator = "=", splitter = ">";
+    boolean turnUp = false;
 
     protected void onResume() {
         super.onResume();
@@ -70,23 +70,33 @@ public class MainActivity extends AppCompatActivity {
         properties = p.toArray(new String[0]);
     }
 
+    public void turnUpDown(View v) {
+        findViewById(R.id.fablay).setVisibility((turnUp = !turnUp) ? View.VISIBLE : View.INVISIBLE);
+    }
+
+    String generateProperties(HashSet<Integer> set) {
+        set.add((int) (Math.random() * properties.length));
+        if (set.size() < 6)
+            generateProperties(set);
+        StringBuilder ret = new StringBuilder();
+        for (Integer i : set) ret.append(" ").append(i);
+        return ret.toString();
+    }
+
+    @SuppressLint("SetTextI18n")
     public void generateRandom(View v) {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        stringBuilder.append((char) (Math.random() * targets.length + 65));
-        stringBuilder.append((char) (Math.random() * characters.length + 65));
-        for (int i = 0; i < 6; i++)
-            stringBuilder.append((char) (Math.random() * properties.length + 65));
-
-        ((EditText) findViewById(R.id.char_code)).setText(stringBuilder.toString());
+        ((EditText) findViewById(R.id.char_code)).setText("" +
+                ((int) (Math.random() * targets.length)) + " " +
+                ((int) (Math.random() * characters.length)) +
+                generateProperties(new HashSet<Integer>()));
         convert(null);
     }
 
     public void convert(View v) {
-        String id = ((EditText) findViewById(R.id.char_code)).getText().toString();
-        int[] arr = new int[8];
         try {
-            for (int i = 0; i < 8; i++) arr[i] = id.charAt(i);
+            String[] id = ((EditText) findViewById(R.id.char_code)).getText().toString().split(" ");
+            int[] arr = new int[8];
+            for (int i = 0; i < 8; i++) arr[i] = Integer.parseInt(id[i]);
             rv.setAdapter(new ProretyAdapter(this, initProperties(arr)));
         } catch (Exception e) {
             e.printStackTrace();
