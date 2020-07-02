@@ -44,7 +44,7 @@ class Property {
         return ret;
     }
 
-    static boolean doRecreate(String[] data) {
+    static boolean doRecreate(int need_lvl, String[] data) {
         int lvl = 0;
         ArrayList<String> ch = new ArrayList<>();
         for (String s : data) {
@@ -56,7 +56,7 @@ class Property {
         for (int i = 0; i < ch.size() - 1; i++)
             for (int j = i; j < ch.size() - 1; j++)
                 if (ch.get(i).equals(ch.get(j))) return false;
-        return lvl == 0;
+        return lvl == need_lvl;
     }
 
     int getType() {
@@ -75,6 +75,12 @@ class Property {
             case 5:
             case 8:
                 return R.drawable.lic_vis_no;
+            case 9:
+                return R.drawable.lic_target;
+            case 10:
+                return R.drawable.lic_grab;
+            case 11:
+                return R.drawable.lic_char;
         }
     }
 

@@ -67,6 +67,7 @@
             android:backgroundTint="#FFFFFF"
             android:onClick="checkBox"
             android:text="@string/generate_balance"
+            android:textColor="@color/basic"
             android:textSize="16sp"
             android:thumb="@drawable/switch_ic" />
 
@@ -78,6 +79,7 @@
             android:backgroundTint="#FFFFFF"
             android:onClick="checkBox"
             android:text="@string/show_icons"
+            android:textColor="@color/basic"
             android:textSize="16sp"
             android:thumb="@drawable/switch_ic" />
 
@@ -89,6 +91,7 @@
             android:backgroundTint="#FFFFFF"
             android:onClick="checkBox"
             android:text="@string/show_colors"
+            android:textColor="@color/basic"
             android:textSize="16sp"
             android:thumb="@drawable/switch_ic" />
 
@@ -100,8 +103,34 @@
             android:backgroundTint="#FFFFFF"
             android:onClick="checkBox"
             android:text="@string/icon_no_text"
+            android:textColor="@color/basic"
             android:textSize="16sp"
             android:thumb="@drawable/switch_ic" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:drawable/btn_default"
+            android:backgroundTint="#FFFFFF"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/lvl_hard"
+                android:textColor="@color/basic"
+                android:textSize="16sp" />
+
+            <SeekBar
+                android:id="@+id/sk_lvl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="4"
+                android:progress="2"
+                android:thumb="@drawable/switch_ic"
+                android:thumbTint="@color/colorAccent" />
+        </LinearLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_apply2"

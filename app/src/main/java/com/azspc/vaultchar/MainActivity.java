@@ -10,6 +10,7 @@ import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     public void generateRandom(View v) {
         if (sp.getBoolean(key_generation, false)) {
             static_loop = 0;
-            ((EditText) findViewById(R.id.char_code)).setText(genPropSmart());
+            ((EditText) findViewById(R.id.char_code)).setText(genPropSmart(((SeekBar) findViewById(R.id.sk_lvl)).getProgress()-2));
             Toast.makeText(getBaseContext(), "Попыток генерации ключа: " + static_loop, Toast.LENGTH_SHORT).show();
         } else ((EditText) findViewById(R.id.char_code)).setText("" +
                 ((int) (Math.random() * targets.length)) + s_incode +
@@ -90,13 +91,13 @@ public class MainActivity extends AppCompatActivity {
         return ret.toString();
     }
 
-    String genPropSmart() {
+    String genPropSmart(int lvl) {
         static_loop++;
         static_code = (((int) (Math.random() * targets.length)) + s_incode +
                 ((int) (Math.random() * characters.length)) + genProp(new HashSet<Integer>()));
         int[] arr = new int[8];
         for (int i = 0; i < 8; i++) arr[i] = Integer.parseInt(static_code.split(s_incode)[i]);
-        if (!doRecreate(initProperties(arr))) genPropSmart();
+        if (!doRecreate(lvl, initProperties(arr))) genPropSmart(lvl);
         return static_code;
     }
 
