@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import static com.azspc.vaultchar.MainActivity.key_icnot;
 import static com.azspc.vaultchar.MainActivity.key_icon;
+import static com.azspc.vaultchar.MainActivity.s_funk;
 import static com.azspc.vaultchar.MainActivity.s_item;
 import static com.azspc.vaultchar.MainActivity.sp;
 
@@ -43,13 +44,19 @@ class Property {
         return ret;
     }
 
-    static int getMultiLevel(String[] data) {
+    static boolean doRecreate(String[] data) {
         int lvl = 0;
+        ArrayList<String> ch = new ArrayList<>();
         for (String s : data) {
-            int type = initType(s.split(s_item)[0]);
+            String[] tag = s.split(s_item)[0].split(s_funk);
+            if (tag.length > 1) ch.add(tag[1]);
+            int type = initType(tag[0]);
             lvl += (type == 3 || type == 4 || type == 5) ? 1 : ((type == 6 || type == 7 || type == 8) ? -1 : 0);
         }
-        return lvl;
+        for (int i = 0; i < ch.size() - 1; i++)
+            for (int j = i; j < ch.size() - 1; j++)
+                if (ch.get(i).equals(ch.get(j))) return false;
+        return lvl == 0;
     }
 
     int getType() {
@@ -111,7 +118,7 @@ class Property {
     }
 
     private static int initType(String s) {
-        switch (s) {
+        switch (s.split(s_funk)[0]) {
             default:
                 return -1;
             case "**":

@@ -1,6 +1,7 @@
 package com.azspc.vaultchar;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
@@ -8,7 +9,6 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -28,7 +28,7 @@ import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import static com.azspc.vaultchar.Property.getMultiLevel;
+import static com.azspc.vaultchar.Property.doRecreate;
 import static com.azspc.vaultchar.Property.multiProperties;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
     String[] properties;
     RecyclerView rv;
     public static final String
-            s_data = "=", s_item = ">", s_incode = " ",
-            key_icon = "show_ic", key_generation = "smart_gen", key_color = "fill_color", key_icnot = "icon_no_text";
+            s_data = "=", s_item = ">", s_funk = "<", s_incode = " ",
+            key_icon = "show_ic", key_generation = "smart_gen", key_color = "fill_color", key_icnot = "icon_no_text", key_info = "read_info";
     boolean turnUp = false;
     public static SharedPreferences sp;
     String static_code = "";
@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
                 View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         rv.setLayoutManager(new LinearLayoutManager(this));
         initData();
         generateRandom(null);
+        if (!sp.getBoolean(key_info, false)) showInfoA(null);
     }
 
     @SuppressLint("SetTextI18n")
@@ -91,14 +91,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     String genPropSmart() {
-        ++static_loop;
+        static_loop++;
         static_code = (((int) (Math.random() * targets.length)) + s_incode +
                 ((int) (Math.random() * characters.length)) + genProp(new HashSet<Integer>()));
         int[] arr = new int[8];
         for (int i = 0; i < 8; i++) arr[i] = Integer.parseInt(static_code.split(s_incode)[i]);
-        int lvl = getMultiLevel(initProperties(arr));
-        if (!(lvl == 0)) genPropSmart();
+        if (!doRecreate(initProperties(arr))) genPropSmart();
         return static_code;
+    }
+
+    public void showInfoA(View v) {
+        startActivity(new Intent(this, InfoActivity.class));
     }
 
     public void convert(View v) {
@@ -133,6 +136,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void turnUpDown(View v) {
+        findViewById(R.id.fablay).setVisibility((turnUp = !turnUp) ? View.VISIBLE : View.INVISIBLE);
+    }
+
     private void initData() {
         ArrayList<String> t = new ArrayList<>();
         ArrayList<String> c = new ArrayList<>();
@@ -149,10 +156,6 @@ public class MainActivity extends AppCompatActivity {
         targets = t.toArray(new String[0]);
         characters = c.toArray(new String[0]);
         properties = p.toArray(new String[0]);
-    }
-
-    public void turnUpDown(View v) {
-        findViewById(R.id.fablay).setVisibility((turnUp = !turnUp) ? View.VISIBLE : View.INVISIBLE);
     }
 
     String[] initProperties(int[] code) {
