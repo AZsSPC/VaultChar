@@ -92,5 +92,16 @@
             android:textSize="16sp"
             android:thumb="@drawable/switch_ic" />
 
+        <Switch
+            android:id="@+id/cb_icnot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/btn_default"
+            android:backgroundTint="#FFFFFF"
+            android:onClick="checkBox"
+            android:text="@string/icon_no_text"
+            android:textSize="16sp"
+            android:thumb="@drawable/switch_ic" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

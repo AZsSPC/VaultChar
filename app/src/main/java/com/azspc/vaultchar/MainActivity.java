@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView rv;
     public static final String
             s_data = "=", s_item = ">", s_incode = " ",
-            key_icon = "show_ic", key_generation = "smart_gen", key_color = "fill_color";
+            key_icon = "show_ic", key_generation = "smart_gen", key_color = "fill_color", key_icnot = "icon_no_text";
     boolean turnUp = false;
     public static SharedPreferences sp;
     String static_code = "";
@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         ((Switch) findViewById(R.id.cb_icon)).setChecked(sp.getBoolean(key_icon, true));
         ((Switch) findViewById(R.id.cb_smartgen)).setChecked(sp.getBoolean(key_generation, false));
         ((Switch) findViewById(R.id.cb_color)).setChecked(sp.getBoolean(key_color, true));
+        ((Switch) findViewById(R.id.cb_icnot)).setChecked(sp.getBoolean(key_icnot, false));
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitAll().build());
         rv = findViewById(R.id.prop);
         rv.setLayoutManager(new LinearLayoutManager(this));
@@ -124,6 +125,10 @@ public class MainActivity extends AppCompatActivity {
         }
         if (cb.getId() == R.id.cb_color) {
             sp.edit().putBoolean(key_color, cb.isChecked()).apply();
+            convert(null);
+        }
+        if (cb.getId() == R.id.cb_icnot) {
+            sp.edit().putBoolean(key_icnot, cb.isChecked()).apply();
             convert(null);
         }
     }

@@ -4,7 +4,10 @@ import android.content.res.Resources;
 
 import java.util.ArrayList;
 
+import static com.azspc.vaultchar.MainActivity.key_icnot;
+import static com.azspc.vaultchar.MainActivity.key_icon;
 import static com.azspc.vaultchar.MainActivity.s_item;
+import static com.azspc.vaultchar.MainActivity.sp;
 
 class Property {
     private String text;
@@ -14,10 +17,10 @@ class Property {
     private Property(Resources r, String[] data) {
         try {
             this.type = initType(data[0]);
-            this.text = data[1]
-                    + initSubtitle(data)
-                    + ((type == 1 || type == 4 || type == 7) ? "\n\n • Очевидное свойство!" :
-                    ((type == 2 || type == 5 || type == 8) ? "\n\n • Секретное свойство!" : ""));
+            this.text = data[1] + initSubtitle(data);
+            if (!(sp.getBoolean(key_icnot, false) && sp.getBoolean(key_icon, true)))
+                this.text += ((type == 1 || type == 4 || type == 7) ? "\n\n • Очевидное свойство!" :
+                        ((type == 2 || type == 5 || type == 8) ? "\n\n • Секретное свойство!" : ""));
             this.color = initColor(r, type);
         } catch (Exception e) {
             e.printStackTrace();
