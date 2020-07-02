@@ -1,12 +1,16 @@
 package com.azspc.vaultchar;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +28,7 @@ import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import static com.azspc.vaultchar.Property.getMultiLevel;
 import static com.azspc.vaultchar.Property.multiProperties;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,8 +36,13 @@ public class MainActivity extends AppCompatActivity {
     String[] characters;
     String[] properties;
     RecyclerView rv;
-    public static final String separator = "=", splitter = ">";
+    public static final String
+            s_data = "=", s_item = ">", s_incode = " ",
+            key_icon = "show_ic", key_generation = "smart_gen", key_color = "fill_color";
     boolean turnUp = false;
+    public static SharedPreferences sp;
+    String static_code = "";
+    int static_loop = 0;
 
     protected void onResume() {
         super.onResume();
@@ -41,15 +51,81 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sp = PreferenceManager.getDefaultSharedPreferences(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ((Switch) findViewById(R.id.cb_icon)).setChecked(sp.getBoolean(key_icon, true));
+        ((Switch) findViewById(R.id.cb_smartgen)).setChecked(sp.getBoolean(key_generation, false));
+        ((Switch) findViewById(R.id.cb_color)).setChecked(sp.getBoolean(key_color, true));
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitAll().build());
         rv = findViewById(R.id.prop);
         rv.setLayoutManager(new LinearLayoutManager(this));
         initData();
         generateRandom(null);
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void generateRandom(View v) {
+        if (sp.getBoolean(key_generation, false)) {
+            static_loop = 0;
+            ((EditText) findViewById(R.id.char_code)).setText(genPropSmart());
+            Toast.makeText(getBaseContext(), "Попыток генерации ключа: " + static_loop, Toast.LENGTH_SHORT).show();
+        } else ((EditText) findViewById(R.id.char_code)).setText("" +
+                ((int) (Math.random() * targets.length)) + s_incode +
+                ((int) (Math.random() * characters.length)) +
+                genProp(new HashSet<Integer>()));
+        convert(null);
+    }
+
+    String genProp(HashSet<Integer> set) {
+        set.add((int) (Math.random() * properties.length));
+        if (set.size() < 6)
+            genProp(set);
+        StringBuilder ret = new StringBuilder();
+        for (Integer i : set) ret.append(s_incode).append(i);
+        return ret.toString();
+    }
+
+    String genPropSmart() {
+        ++static_loop;
+        static_code = (((int) (Math.random() * targets.length)) + s_incode +
+                ((int) (Math.random() * characters.length)) + genProp(new HashSet<Integer>()));
+        int[] arr = new int[8];
+        for (int i = 0; i < 8; i++) arr[i] = Integer.parseInt(static_code.split(s_incode)[i]);
+        int lvl = getMultiLevel(initProperties(arr));
+        if (!(lvl == 0)) genPropSmart();
+        return static_code;
+    }
+
+    public void convert(View v) {
+        try {
+            String[] id = ((EditText) findViewById(R.id.char_code)).getText().toString().split(s_incode);
+            int[] arr = new int[8];
+            for (int i = 0; i < 8; i++) arr[i] = Integer.parseInt(id[i]);
+            rv.setAdapter(new ProretyAdapter(this,
+                    new ArrayList<>(multiProperties(getResources(), initProperties(arr)))));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getBaseContext(), "Ошибка", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void checkBox(View v) {
+        Switch cb = (Switch) v;
+        if (cb.getId() == R.id.cb_icon) {
+            sp.edit().putBoolean(key_icon, cb.isChecked()).apply();
+            convert(null);
+        }
+        if (cb.getId() == R.id.cb_smartgen) {
+            sp.edit().putBoolean(key_generation, cb.isChecked()).apply();
+        }
+        if (cb.getId() == R.id.cb_color) {
+            sp.edit().putBoolean(key_color, cb.isChecked()).apply();
+            convert(null);
+        }
     }
 
     private void initData() {
@@ -58,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<String> p = new ArrayList<>();
         for (String s : getFromCloud(getString(R.string.data_url), "savedData"))
             try {
-                String type = s.split(separator)[0];
+                String type = s.split(s_data)[0];
                 if ("t".equals(type)) t.add(s.substring(2));
                 if ("c".equals(type)) c.add(s.substring(2));
                 if ("p".equals(type)) p.add(s.substring(2));
@@ -74,46 +150,16 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.fablay).setVisibility((turnUp = !turnUp) ? View.VISIBLE : View.INVISIBLE);
     }
 
-    String generateProperties(HashSet<Integer> set) {
-        set.add((int) (Math.random() * properties.length));
-        if (set.size() < 6)
-            generateProperties(set);
-        StringBuilder ret = new StringBuilder();
-        for (Integer i : set) ret.append(" ").append(i);
-        return ret.toString();
-    }
-
-    @SuppressLint("SetTextI18n")
-    public void generateRandom(View v) {
-        ((EditText) findViewById(R.id.char_code)).setText("" +
-                ((int) (Math.random() * targets.length)) + " " +
-                ((int) (Math.random() * characters.length)) +
-                generateProperties(new HashSet<Integer>()));
-        convert(null);
-    }
-
-    public void convert(View v) {
-        try {
-            String[] id = ((EditText) findViewById(R.id.char_code)).getText().toString().split(" ");
-            int[] arr = new int[8];
-            for (int i = 0; i < 8; i++) arr[i] = Integer.parseInt(id[i]);
-            rv.setAdapter(new ProretyAdapter(this, initProperties(arr)));
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getBaseContext(), "Ошибка", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    ArrayList<Property> initProperties(int[] code) {
-        return new ArrayList<>(multiProperties(getResources(), (""
-                + getData(targets, code[0]) + separator
-                + getData(characters, code[1]) + separator
-                + getData(properties, code[2]) + separator
-                + getData(properties, code[3]) + separator
-                + getData(properties, code[4]) + separator
-                + getData(properties, code[5]) + separator
-                + getData(properties, code[6]) + separator
-                + getData(properties, code[7])).split(separator)));
+    String[] initProperties(int[] code) {
+        return (""
+                + getData(targets, code[0]) + s_data
+                + getData(characters, code[1]) + s_data
+                + getData(properties, code[2]) + s_data
+                + getData(properties, code[3]) + s_data
+                + getData(properties, code[4]) + s_data
+                + getData(properties, code[5]) + s_data
+                + getData(properties, code[6]) + s_data
+                + getData(properties, code[7])).split(s_data);
     }
 
     String getData(String[] from, int id) {

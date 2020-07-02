@@ -1,15 +1,10 @@
 package com.azspc.vaultchar;
 
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
-import static com.azspc.vaultchar.MainActivity.separator;
-import static com.azspc.vaultchar.MainActivity.splitter;
+import static com.azspc.vaultchar.MainActivity.s_item;
 
 class Property {
     private String text;
@@ -17,17 +12,18 @@ class Property {
     private int color;
 
     private Property(Resources r, String[] data) {
-        if (data.length > 2) {
+        try {
             this.type = initType(data[0]);
             this.text = data[1]
                     + initSubtitle(data)
-                    + ((type == 0 || type == 4 || type == 7) ? "\n • Очевидное свойство!" :
-                    ((type == 1 || type == 5 || type == 8) ? "\n • Секретное свойство!" : ""));
-            this.color = initColor(r, this.type);
-        } else {
+                    + ((type == 1 || type == 4 || type == 7) ? "\n\n • Очевидное свойство!" :
+                    ((type == 2 || type == 5 || type == 8) ? "\n\n • Секретное свойство!" : ""));
+            this.color = initColor(r, type);
+        } catch (Exception e) {
+            e.printStackTrace();
             this.type = -1;
-            this.text = "null";
-            this.color = initColor(r, this.type);
+            this.text = "%error%" + initSubtitle(data);
+            this.color = initColor(r, type);
         }
     }
 
@@ -39,12 +35,37 @@ class Property {
                     .replaceAll("%s", "Пол:")
                     .replaceAll("%n", "Имя:")
                     .replaceAll("%a", "Возраст:")
-                    .split(splitter)));
+                    .replaceAll("%p", "Профессия:")
+                    .split(s_item)));
         return ret;
+    }
+
+    static int getMultiLevel(String[] data) {
+        int lvl = 0;
+        for (String s : data) {
+            int type = initType(s.split(s_item)[0]);
+            lvl += (type == 3 || type == 4 || type == 5) ? 1 : ((type == 6 || type == 7 || type == 8) ? -1 : 0);
+        }
+        return lvl;
     }
 
     int getType() {
         return this.type;
+    }
+
+    int getTypeIcon() {
+        switch (this.type) {
+            default:
+                return R.drawable.lic_vis;
+            case 1:
+            case 4:
+            case 7:
+                return R.drawable.lic_vis_yes;
+            case 2:
+            case 5:
+            case 8:
+                return R.drawable.lic_vis_no;
+        }
     }
 
     String getText() {
@@ -62,9 +83,10 @@ class Property {
         return ret.toString();
     }
 
-    int initColor(Resources r, int type) {
-        switch (this.type) {
+    private static int initColor(Resources r, int type) {
+        switch (type) {
             default:
+            case 11:
                 return r.getColor(R.color.basic);
             case 0:
             case 1:
@@ -79,12 +101,13 @@ class Property {
             case 8:
                 return r.getColor(R.color.minus);
             case 9:
-            case 10:
                 return r.getColor(R.color.target);
+            case 10:
+                return r.getColor(R.color.bag);
         }
     }
 
-    private int initType(String s) {
+    private static int initType(String s) {
         switch (s) {
             default:
                 return -1;
@@ -106,10 +129,12 @@ class Property {
                 return 7;
             case "?-":
                 return 8;
-            case "@":
+            case "#":
                 return 9;
             case "$":
                 return 10;
+            case "@":
+                return 11;
         }
     }
 }

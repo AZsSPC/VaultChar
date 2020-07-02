@@ -9,6 +9,8 @@
     <color name="minus">#B43264</color>
     <color name="plus">#64B432</color>
     <color name="normal">#3264B4</color>
-    <color name="target">#B46432</color>
+    <color name="bag">#B46432</color>
+    <color name="target">#6432B4</color>
+    <color name="chara">#32B464</color>
     <color name="basic">#646464</color>
 </resources>

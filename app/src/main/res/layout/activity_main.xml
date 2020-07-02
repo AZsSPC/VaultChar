@@ -57,58 +57,15 @@
             android:layout_height="wrap_content" />
     </ScrollView>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <include
         android:id="@+id/fablay"
+        layout="@layout/menu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/colorLay"
-        android:padding="16dp"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-        <EditText
-            android:id="@+id/char_code"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:autofillHints=""
-            android:background="@color/gb0"
-            android:hint="@string/hint_data_str"
-            android:inputType="number"
-            android:padding="4dp"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            app:layout_constraintBottom_toBottomOf="@+id/fab_refresh"
-            app:layout_constraintEnd_toEndOf="@+id/fab_apply"
-            app:layout_constraintStart_toStartOf="@+id/fab_refresh"
-            app:layout_constraintTop_toTopOf="@+id/fab_refresh" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_refresh"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="generateRandom"
-            app:backgroundTint="@color/minus"
-            app:fabSize="normal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:maxImageSize="32dp"
-            app:srcCompat="@drawable/refres" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_apply"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="convert"
-            app:backgroundTint="@color/normal"
-            app:fabSize="normal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:maxImageSize="32dp"
-            app:srcCompat="@drawable/select" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

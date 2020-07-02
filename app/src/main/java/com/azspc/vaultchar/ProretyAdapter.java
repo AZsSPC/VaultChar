@@ -11,6 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import static com.azspc.vaultchar.MainActivity.key_color;
+import static com.azspc.vaultchar.MainActivity.key_icon;
+import static com.azspc.vaultchar.MainActivity.sp;
+
 class ProretyAdapter extends RecyclerView.Adapter<ProretyAdapter.ViewHolder> {
 
     private LayoutInflater inflater;
@@ -32,8 +36,11 @@ class ProretyAdapter extends RecyclerView.Adapter<ProretyAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ProretyAdapter.ViewHolder holder, int position) {
         Property property = properties.get(position);
-        holder.title.setText(property.getText());
-        holder.title.setTextColor(property.getColor());
+        holder.propertile.setText(property.getText());
+        if (sp.getBoolean(key_color, true))
+            holder.propertile.setTextColor(property.getColor());
+        if (sp.getBoolean(key_icon, true))
+            holder.propertile.setCompoundDrawablesWithIntrinsicBounds(property.getTypeIcon(), 0, 0, 0);
     }
 
     @Override
@@ -42,11 +49,11 @@ class ProretyAdapter extends RecyclerView.Adapter<ProretyAdapter.ViewHolder> {
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        final TextView title;
+        final TextView propertile;
 
         ViewHolder(View view) {
             super(view);
-            title = view.findViewById(R.id.prop_title);
+            propertile = view.findViewById(R.id.prop_title);
         }
     }
 }

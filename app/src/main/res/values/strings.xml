@@ -1,6 +1,12 @@
 <resources>
-    <string name="app_name">Бункер: генератор персонажей</string>
+    <string name="app_name">Данные персонажа БУНКЕР</string>
     <string name="hint_data_str">Код персонажа</string>
     <string name="icd">_</string>
+    <string name="hide">Закрыть подсказку</string>
+    <string name="start">Начать</string>
+    <string name="so_short">Слишком короткий ID</string>
+    <string name="show_icons">Показывать значки заметности</string>
+    <string name="show_colors">Окрашивать пропертайлы</string>
+    <string name="generate_balance">Умная генерация ключа</string>
     <string name="data_url">https://raw.githubusercontent.com/AZsSPC/VaultChar/master/data.vault</string>
 </resources>
