@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     public void generateRandom(View v) {
         if (sp.getBoolean(key_generation, false)) {
             static_loop = 0;
-            ((EditText) findViewById(R.id.char_code)).setText(genPropSmart(((SeekBar) findViewById(R.id.sk_lvl)).getProgress()-2));
+            ((EditText) findViewById(R.id.char_code)).setText(genPropSmart(((SeekBar) findViewById(R.id.sk_lvl)).getProgress() - 2));
             Toast.makeText(getBaseContext(), "Попыток генерации ключа: " + static_loop, Toast.LENGTH_SHORT).show();
         } else ((EditText) findViewById(R.id.char_code)).setText("" +
                 ((int) (Math.random() * targets.length)) + s_incode +
@@ -103,6 +103,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void showInfoA(View v) {
         startActivity(new Intent(this, InfoActivity.class));
+    }
+    public void showPlayerA(View v) {
+        startActivity(new Intent(this, PlayersActivity.class));
     }
 
     public void convert(View v) {

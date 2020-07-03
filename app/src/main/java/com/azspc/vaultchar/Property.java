@@ -3,6 +3,9 @@ package com.azspc.vaultchar;
 import android.content.res.Resources;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 import static com.azspc.vaultchar.MainActivity.key_icnot;
 import static com.azspc.vaultchar.MainActivity.key_icon;
@@ -49,7 +52,7 @@ class Property {
         ArrayList<String> ch = new ArrayList<>();
         for (String s : data) {
             String[] tag = s.split(s_item)[0].split(s_funk);
-            if (tag.length > 1) ch.add(tag[1]);
+            if (tag.length > 1) ch.addAll(Arrays.asList(tag).subList(1, tag.length));
             int type = initType(tag[0]);
             lvl += (type == 3 || type == 4 || type == 5) ? 1 : ((type == 6 || type == 7 || type == 8) ? -1 : 0);
         }

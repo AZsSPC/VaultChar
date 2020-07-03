@@ -16,7 +16,7 @@
         android:autofillHints=""
         android:background="#FFFFFF"
         android:hint="@string/hint_data_str"
-        android:inputType="number"
+        android:inputType="text"
         android:padding="4dp"
         android:textAlignment="center"
         android:textAllCaps="true"
@@ -49,7 +49,44 @@
         app:maxImageSize="32dp"
         app:srcCompat="@drawable/apply" />
 
+    <Space
+        android:id="@+id/space"
+        android:layout_width="64dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/char_code" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="showInfoA"
+        app:backgroundTint="@color/colorAccent"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="@+id/space"
+        app:layout_constraintEnd_toStartOf="@+id/space"
+        app:layout_constraintTop_toTopOf="@+id/space"
+        app:maxImageSize="32dp"
+        app:srcCompat="@drawable/info" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_players"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tint="#FFFFFF"
+        app:backgroundTint="@color/basic"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="@+id/space"
+        app:layout_constraintStart_toEndOf="@+id/space"
+        app:layout_constraintTop_toTopOf="@+id/space"
+        app:maxImageSize="32dp"
+        android:alpha="0.3"
+        app:srcCompat="@drawable/lic_char" />
+
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -57,7 +94,7 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fab_refresh">
+        app:layout_constraintTop_toBottomOf="@+id/space">
 
         <Switch
             android:id="@+id/cb_smartgen"
@@ -131,18 +168,6 @@
                 android:thumb="@drawable/switch_ic"
                 android:thumbTint="@color/colorAccent" />
         </LinearLayout>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_apply2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="showInfoA"
-            app:backgroundTint="@color/colorAccent"
-            app:fabSize="normal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:maxImageSize="32dp"
-            app:srcCompat="@drawable/info" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
